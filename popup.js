@@ -1,6 +1,7 @@
 const openButton = document.querySelectorAll('[data-popup-target]')
 const closeButton = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay');
+var app = document.getElementById('app');
 
 
 openButton.forEach(button => {
@@ -18,6 +19,7 @@ closeButton.forEach(button => {
 })
 
 function openPopup(pop) {
+
     if(pop == null) return
     pop.classList.add('active')
     overlay.classList.add('active')

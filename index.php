@@ -29,6 +29,8 @@
 </body>
 
 
+<h1> Aplikacija </h1>
+
 <button data-popup-target="#tip">Dodaj novo rezervacijo</button>
 <div class="popup" id="tip">
     <div class="popup-header">
@@ -84,6 +86,20 @@
 
     </div>
 </div>
+
+<button data-popup-target="#nakup">Dodaj nov nakup paketa</button>
+<div class="popup" id="nakup">
+    <div class="popup-header">
+        <div class="popup-title"> Vnesite podatke o stranki</div>
+        <button data-close-button class="zapri">&times;</button>
+    </div>
+    <div class="popup-body">
+    </div>
+    </div>
+
+    
+
+
 <div  id="overlay"></div>
 
 
