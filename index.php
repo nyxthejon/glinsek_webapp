@@ -8,23 +8,17 @@
 </head>
 
 <body>
+
+
     <?php
     
     include 'baza.php';
-    
-    $conn = OpenCon();
-    $sql = "SELECT * FROM `dejavnosti`";
-/*
-    $result = $conn->query($sql);
-     while($row = $result->fetch_assoc())
-     {
-        echo $row["naslov_dejavnosti"];
-        echo "<br>";
-        
-     
-     }
-  */
+  
+
     ?>
+
+
+
 
 </body>
 
@@ -53,7 +47,7 @@
 <!-- form za vnos jahanja-->
 
   <div class="form" id="jahanje_form">
-  <form action="vnos_rezervacije.php">
+  <form action="vnos_rezervacije.php" method="post">
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
@@ -64,7 +58,7 @@
 
 <!-- form za vnos Tabora-->
 <div class="form" id="tabor_form">
-  <form action="vnos_rezervacije.php">
+  <form action="vnos_rezervacije.php" method="post">
   <label for="fname">LOLLLLLLLLL</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
@@ -75,7 +69,7 @@
 
 <!-- form za vnos Rojstnega dneva-->
   <div class="form" id="rd_form">
-  <form action="vnos_rezervacije.php">
+  <form action="vnos_rezervacije.php" method="post">
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
@@ -87,6 +81,8 @@
     </div>
 </div>
 
+
+
 <button data-popup-target="#nakup">Dodaj nov nakup paketa</button>
 <div class="popup" id="nakup">
     <div class="popup-header">
@@ -94,6 +90,64 @@
         <button data-close-button class="zapri">&times;</button>
     </div>
     <div class="popup-body">
+    
+
+
+
+
+
+
+    <!-- form za nakup paketa-->
+    
+    <form action="vnos_nakupa.php" method="post">
+    <label for="vd"> Izberite dejavnost </label><br>
+
+    <select name="dejavnost" id="vd">
+    <?php
+
+$conn = OpenCon();
+$sql = "SELECT * FROM `dejavnosti`";
+
+
+$result = $conn->query($sql);
+ while($row = $result->fetch_assoc())
+ {
+    echo  '<option value='.$row["dejavnost_id"].'>'.$row["naslov_dejavnosti"].' | '.$row["cena"].' EUR</option>';
+ }
+    ?>
+    </select>
+    <br>
+  <label for="ip">Ime in priimek</label><br>
+  <input type="text" id="ip" name="ip" value=""><br>
+  <label for="email">E-pošta</label><br>
+  <input type="email" id="email" name="email" value=""><br>
+  <label for="phone">Telefon</label><br>
+  <input type="number" id="phone" name="phone"><br>
+  <label for="naslov">Naslov</label><br>
+  <input type="text" id="naslov" name="naslov"><br>
+  <label for="posta">Postna stevilka</label><br>
+  <select name="posta" id="posta">
+  <?php
+
+
+$sql = "SELECT * FROM `kraji`";
+$result = $conn->query($sql);
+ while($row = $result->fetch_assoc())
+ {
+    echo  '<option value='.$row["k_id"].'>'.$row["ime_k"].' | '.$row["posta"].'</option>';
+ }
+    ?>
+
+
+
+  </select><br>
+  <label for="za">Za koga se kupuje paket</label><br>
+  <input type="text" id="za" name="za" value="zase"><br>
+  <label for="kolicina">Kolicina</label><br>
+  <input type="number" id="kolicina" name="kolicina" value="1" min="1"><br>
+  <input type="submit" value="Konec">
+</form>
+
     </div>
     </div>
 
