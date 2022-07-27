@@ -53,7 +53,7 @@
                                 echo "<td>".$row['ime']." ".$row['priimek']."</td>";
                                 echo "<td>".$row['email']."</td>";
                                 echo "<td>".$row['telefon']."</td>";
-                                echo "<td>".$row['stranka_id']."</td>";
+                                echo "<td> <a href='vec_stranka.php?id=".$row['stranka_id']."'>Več</a> </td>";
                                 echo "</tr>";
                                 }
                                 ?>
@@ -67,7 +67,9 @@
 
 	</div>
 </div>
-
+<?php
+CloseCon($conn);
+?>
 <script src="iskanje.js"></script>
 </body>
 </html>

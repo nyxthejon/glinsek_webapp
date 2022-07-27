@@ -52,7 +52,7 @@ if ($row['st'] > 0)
 // se ne obstaja
 else
 {
-    $insert = "INSERT INTO stranke VALUES('NULL','$ime','$priimek','$email','$phone','$kid')";
+    $insert = "INSERT INTO stranke VALUES('NULL','$ime','$priimek','$email','$phone','$kid','$naslov)";
     $result = $conn->query($insert);
     if($result)
     {
