@@ -1,6 +1,7 @@
 <?php
 include 'baza.php';
-$ime = $_POST['ip'];
+$ime = $_POST['im'];
+$priimek = $_POST['pr'];
 $email = $_POST['email'];
 $phone = $_POST['phone'];
 $naslov = $_POST['naslov'];
@@ -51,7 +52,7 @@ if ($row['st'] > 0)
 // se ne obstaja
 else
 {
-    $insert = "INSERT INTO stranke VALUES('NULL','$ime','$email','$phone','$kid')";
+    $insert = "INSERT INTO stranke VALUES('NULL','$ime','$priimek','$email','$phone','$kid')";
     $result = $conn->query($insert);
     if($result)
     {

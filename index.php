@@ -113,8 +113,10 @@ $result = $conn->query($sql);
     ?>
     </select>
     <br>
-  <label for="ip">Ime in priimek</label><br>
-  <input type="text" id="ip" name="ip" required="required"><br>
+  <label for="im">Ime</label><br>
+  <input type="text" id="im" name="im" required="required"><br>
+  <label for="pr">Priimek</label><br>
+  <input type="text" id="pr" name="pr" required="required"><br>
   <label for="email">E-pošta</label><br>
   <input type="email" id="email" name="email" required="required"><br>
   <label for="phone">Telefon</label><br>
