@@ -24,7 +24,15 @@
 			<div class="col-xl-8">
 				<div class="card">
 					<div class="card-header pb-0">
-                    <input id="searchbar" onkeyup="isci()" type="text" name="search" placeholder="Poišči stranko">
+                    <input id="searchbar" onkeyup="isci()" type="text" name="search" placeholder="Poišči stranko"> <br>
+                    <input type="radio" name="kaj" checked="checked" id="ip" value="0"/>
+                    <label for="ip">Ime in Priimek</label>
+
+                    <input type="radio" name="kaj" id="em" value="1"/>
+                    <label for="em">Email</label>
+
+                    <input type="radio" name="kaj" id="tel" value="2"/>
+                    <label for="tel">Telefon</label>
 					</div>
 					<div class="card-body">
 						<table id="izpis" class="table table-striped" style="width:100%">
