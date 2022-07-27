@@ -8,8 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-    <?php require 'header.php' ?> 
-    Stranke :)
+    <?php require 'header.php';
+    
+    $conn = OpenCon();
+    $sql = "SELECT * FROM `stranke`";
+    
+
+    ?> 
 
     <div class="container">
     <div class="container-fluid p-0">
@@ -32,18 +37,19 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>Jon rg</td>
-									<td>jon@winters.com</td>
-                                    <td>12313124</td>
-									<td>GUMB</td>
-								</tr>
-								<tr>
-                                    <td>Jon gr</td>
-									<td>omg@safsa</td>
-									<td>12312321</td>
-									<td>GUMB</td>
-								</tr>
+                                <?php
+                                $result = $conn->query($sql);
+                                while($row = $result->fetch_assoc())
+                                {
+                                echo "<tr>";
+                                echo "<td>".$row['ime']." ".$row['priimek']."</td>";
+                                echo "<td>".$row['email']."</td>";
+                                echo "<td>".$row['telefon']."</td>";
+                                echo "<td>".$row['stranka_id']."</td>";
+                                echo "</tr>";
+                                }
+                                ?>
+								
 							
 							</tbody>
 						</table>
