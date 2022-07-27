@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang = "sl">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <title>Rezervacije</title>
 <link rel="stylesheet" href="popup.css">
 <script defer src="popup.js"></script>
@@ -10,12 +11,7 @@
 <body>
 
 
-    <?php
-    
-    include 'baza.php';
-  
-
-    ?>
+    <?php require 'header.php';  ?>
 
 
 
