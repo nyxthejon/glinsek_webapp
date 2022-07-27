@@ -16,18 +16,18 @@
 
     ?> 
 
+    
     <div class="container">
     <div class="container-fluid p-0">
-
+ 
 		<div class="row">
 			<div class="col-xl-8">
 				<div class="card">
 					<div class="card-header pb-0">
-						<div class="card-actions float-right">
-						</div>
+                    <input id="searchbar" onkeyup="isci()" type="text" name="search" placeholder="Poišči stranko">
 					</div>
 					<div class="card-body">
-						<table class="table table-striped" style="width:100%">
+						<table id="izpis" class="table table-striped" style="width:100%">
 							<thead>
 								<tr>
 									<th>Ime</th>
@@ -59,5 +59,7 @@
 
 	</div>
 </div>
+
+<script src="iskanje.js"></script>
 </body>
 </html>

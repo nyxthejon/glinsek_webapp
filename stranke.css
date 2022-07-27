@@ -64,3 +64,12 @@ body{margin-top:20px;
         background-color: #fff;
         border-bottom: 0 solid transparent;
     }
+    #searchbar
+    {
+        position: inherit;
+        font-size: 16px; 
+        padding: 12px 20px 12px 40px; 
+        border: 1px solid #ddd; 
+        margin-bottom: 12px; 
+        border-radius: 10px;
+    }
