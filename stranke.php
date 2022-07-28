@@ -5,6 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stranke.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+     #searchbar
+    {
+        position: inherit;
+        width: 25%;
+        font-size: 16px; 
+        padding: 12px 20px 12px 40px; 
+        border: 1px solid #ddd; 
+        margin-bottom: 12px; 
+        border-radius: 10px;
+        
+    }</style>
     <title>Document</title>
 </head>
 <body>
@@ -35,7 +50,7 @@
                     <label for="tel">Telefon</label>
 					</div>
 					<div class="card-body">
-						<table id="izpis" class="table table-striped" style="width:100%">
+                    <table id="izpis" class="display" style="width:100%">
 							<thead>
 								<tr>
 									<th>Ime</th>
@@ -67,6 +82,16 @@
 
 	</div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('#izpis').DataTable({
+        pagingType: 'numbers',
+        "searching":false
+    });
+    
+});
+</script>
 <?php
 CloseCon($conn);
 ?>

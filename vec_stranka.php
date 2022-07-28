@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+
     <title>Podrobno o stranki</title>
 </head>
 <body>
@@ -47,6 +51,7 @@ $po = $conn->query($sql);
     ?>
   </select><br>
 
+
   
   <script>
     let e = document.getElementById('posta');
@@ -61,7 +66,54 @@ $po = $conn->query($sql);
 
 </form>
 
+<hr>
 
+<h3>Pretekli nakupi</h3>
+<table id="tabela" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Dejavnost</th>
+                <th>Kupljene ure</th>
+                <th>Ure še na voljo</th>
+                <th>Datum nakupa</th>
+                <th>Cena</th>
+                <th>Že plačano</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php 
+$sql = "SELECT * FROM stranke join kupljene_ure using(stranka_id) join dejavnosti using(dejavnost_id) where stranka_id = '$id' order by na_voljo_ur DESC";
+$result = $conn->query($sql);
+ while($row = $result->fetch_assoc())
+ {
+  echo "<tr>";
+  echo "<td>".$row['naslov_dejavnosti']."</td>";
+  echo "<td>".$row['stevilo_ur']."</td>";
+  echo "<td>".$row['na_voljo_ur']."</td>";
+  echo "<td>".$row['datum_nakupa']."</td>";
+  echo "<td>".$row['stevilo_ur'] * $row['cena']." Eur</td>";
+  echo "<td> ??? 
+  </td>";
+
+  echo "</tr>";
+ }
+
+?>
+
+
+        </tbody>
+</table>
+<script>
+  $(document).ready(function () {
+    $('#tabela').DataTable({
+        pagingType: 'numbers',
+        "searching":false
+    });
+    
+});
+
+
+</script>
 <?php
 CloseCon($conn);
 ?>
