@@ -8,6 +8,7 @@ function alert($msg, $id)
     window.alert('$msg');
     window.location.href='http://glinsekapp.stalaglinsek.si/vec_stranka.php?id=$id';
     </script>");
+    
 }
 
 $sid = $_GET['sid']; 
@@ -32,7 +33,23 @@ $pl = $_GET['placilo'];
 }
 else if(isset($_GET['im']) && isset($_GET['pr']) && isset($_GET['email']) && isset($_GET['phone']))
 {
+$im = $_GET['im'];
+$pri = $_GET['pr'];
+$email = $_GET['email'];
+$phone = $_GET['phone'];
+$naslov = $_GET['naslov'];
+$post = $_GET['posta'];
 
+$sql = "UPDATE stranke set ime ='".$im."', priimek = '".$pri."', email = '".$email."', telefon = '".$phone."', naslov='".$naslov."',k_id = ".$post." where stranka_id = ".$sid.";";
+$result = $conn->query($sql);
+if($result)
+  {
+    alert("Uspešno posodobljen", $sid);
+  }
+  else
+  {
+    alert("Napaka pri posodobitvi", $sid);
+  }
 }
 
 

@@ -49,6 +49,7 @@ $row = $result->fetch_assoc();
   <input type="number" id="phone" name="phone" value= <?php echo $row['telefon'] ?>  required="required"><br>  
   <label for="naslov">Naslov</label><br>
   <input type="text" id="naslov" name="naslov" value= <?php echo $row['naslov'] ?> required="required"><br>
+  <input type="hidden" name="sid" value='<?php echo $id ?>'>
   <label for="posta">Postna stevilka</label><br>
   <select name="posta" id="posta">
   <?php
