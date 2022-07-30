@@ -11,7 +11,9 @@
 <body>
 
 
-    <?php require 'header.php';  ?>
+    <?php require 'header.php'; 
+ $conn = OpenCon();
+ ?>
 
 
 
@@ -37,21 +39,49 @@
   </select>
 
 
-  
- 
+
 
 <!-- form za vnos jahanja-->
 
   <div class="form" id="jahanje_form">
   <form action="vnos_rezervacije.php" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+    <!-- Izbira stranke -->
+    <label for="i_stranka">Izberite stranko</label><br>
+  <select name="i_stranka" id="i_stranka" onchange="showpaketi(this.value)">
+  <option value="">Izberite stranko</option>
+  <?php
+ 
+$sql = "SELECT * FROM `stranke`";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc())
+ {
+    echo  '<option value='.$row["stranka_id"].'>'.$row["ime"].' '.$row['priimek'].' | '.$row["email"].'</option>';
+ }
+    ?>
+
+  </select>
+
+
+    <!-- Izbira paketa -->
+    <label for="p_stranka">Izbreite paket</label><br>
+    <div id="i_paket">
+
+    </div>
+    
+
+
   <input type="submit" value="Submit">
 </form> 
   </div>
 
+
+
+
+
+
+
+
+  
 <!-- form za vnos Tabora-->
 <div class="form" id="tabor_form">
   <form action="vnos_rezervacije.php" method="post">
@@ -101,7 +131,6 @@
     <select name="dejavnost" id="vd">
     <?php
 
-$conn = OpenCon();
 $sql = "SELECT * FROM `dejavnosti`";
 
 
@@ -130,6 +159,7 @@ $result = $conn->query($sql);
 
 $sql = "SELECT * FROM `kraji`";
 $result = $conn->query($sql);
+echo  "<option value='none'> </option>";
  while($row = $result->fetch_assoc())
  {
     echo  '<option value='.$row["k_id"].'>'.$row["ime_k"].' | '.$row["posta"].'</option>';
@@ -196,8 +226,23 @@ $result = $conn->query($sql);
     }
 }
 
-<?php
+function showpaketi(str)
+{
+  if (str == "") {
+    document.getElementById("txtHint").innerHTML = "";
+    return;
+  }
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("i_paket").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "getpakete.php?ajdi="+str);
+  xhttp.send();
+
+}
+
+ </script>
+ <?php
 CloseCon($conn);
 ?>
- </script>
 </html>

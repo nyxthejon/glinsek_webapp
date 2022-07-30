@@ -8,6 +8,11 @@ $naslov = $_POST['naslov'];
 $kid = $_POST['posta'];
 $did = $_POST['dejavnost'];
 $za = $_POST['za'];
+
+if($za = 'zase')
+{
+    $za = $ime." ".$priimek;
+}
 $k = $_POST['kolicina'];
 
 
