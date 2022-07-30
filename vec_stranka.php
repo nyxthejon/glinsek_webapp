@@ -7,6 +7,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="popup.css">
+    <script defer src="popup.js"></script>
 
     <title>Podrobno o stranki</title>
 </head>
@@ -27,8 +29,16 @@ $row = $result->fetch_assoc();
 ?>
 <h2>Ogled podatkov in nakupov za stranko <?php echo $row['ime'].' '.$row['priimek'] ?> </h2>
 <hr>
-<h3>Uredi podatke</h3>
-<form action="update_uporabnika.php" method="post" >
+
+<! -- Urejanje podatkov popup --> 
+<button data-popup-target="#tip">Uredi podatke</button>
+<div class="popup" id="tip">
+    <div class="popup-header">
+        <div class="popup-title" id="naslov_form"> Uredi podatke</div>
+        <button data-close-button class="zapri">&times;</button>
+    </div>
+    <div class="popup-body">
+    <form action="vec_stranka_placilo.php" method="get" >
 <label for="im">Ime</label><br>
   <input type="text" id="im" name="im" value= <?php echo $row['ime'] ?> required="required"><br>
   <label for="pr">Priimek</label><br>
@@ -50,23 +60,18 @@ $po = $conn->query($sql);
  }
     ?>
   </select><br>
-
-
-  
   <script>
     let e = document.getElementById('posta');
     e.value = '<?php echo $row["k_id"]; ?>';
-
   </script>
   <input type="submit" value="Konec">
-
-
-
-
-
 </form>
+    </div>
+</div>
 
-<hr>
+
+
+
 
 <h3>Pretekli nakupi</h3>
 <table id="tabela" class="display" style="width:100%">
@@ -77,7 +82,7 @@ $po = $conn->query($sql);
                 <th>Ure še na voljo</th>
                 <th>Datum nakupa</th>
                 <th>Cena</th>
-                <th>Že plačano</th>
+                <th>Potrebno plačati</th>
             </tr>
         </thead>
         <tbody>
@@ -92,15 +97,35 @@ $result = $conn->query($sql);
   echo "<td>".$row['na_voljo_ur']."</td>";
   echo "<td>".$row['datum_nakupa']."</td>";
   echo "<td>".$row['stevilo_ur'] * $row['cena']." Eur</td>";
-  echo "<td> ??? 
-  </td>";
+  $ajdi = $row['ku_id'];
+?>
+<td>
+<?php  
+if($row['za_placati'] == 0)
+{
+echo "<p> Že plačano </p>";
+}
+else
+{
+  ?>
+   <?php echo $row['za_placati'] ?> Eur &ensp;
+  <form method="get" name="cena" action="vec_stranka_placilo.php">
+  <input type='number'  required  name='placilo' min='1' max='<?php echo $row['za_placati']; ?>' >
+  <input type='hidden' name='ku_id' value='<?php echo $ajdi; ?>' >
+  <input type='hidden' name='sid' value='<?php echo $id; ?>' >
+  <input type='submit' value='Potrdi'>
+  </form>
+
+  <?php
+}
+
 
   echo "</tr>";
  }
 
 ?>
 
-
+  
         </tbody>
 </table>
 <script>
@@ -109,12 +134,14 @@ $result = $conn->query($sql);
         pagingType: 'numbers',
         "searching":false
     });
-    
+   
 });
 
 
 </script>
 <?php
+
+   
 CloseCon($conn);
 ?>
 </body>
