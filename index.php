@@ -6,6 +6,7 @@
 <title>Rezervacije</title>
 <link rel="stylesheet" href="popup.css">
 <script defer src="popup.js"></script>
+<script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -42,12 +43,13 @@
 
 
 <!-- form za vnos jahanja-->
-
-  <div class="form" id="jahanje_form">
   <form action="vnos_rezervacije.php" method="post">
+  <div class="form" id="jahanje_form">
+
+  <input type="hidden" name="tip" value="jahanje">
     <!-- Izbira stranke -->
     <label for="i_stranka">Izberite stranko</label><br>
-  <select name="i_stranka" id="i_stranka" onchange="showpaketi(this.value)">
+  <select name="i_stranka" id="i_stranka" require onchange="showpaketi(this.value)">
   <option value="">Izberite stranko</option>
   <?php
  
@@ -61,18 +63,51 @@ while($row = $result->fetch_assoc())
 
   </select>
 
-
     <!-- Izbira paketa -->
-    <label for="p_stranka">Izbreite paket</label><br>
+
     <div id="i_paket">
 
     </div>
+    <div>
+    <label for='dateizbira'>Vnesite datum Jahanja</label>
+    <input type="datetime-local" require id="dateizbira"
+       name="datum_jahanja"
+       min="2000-01-01T00:00">
+    </div>
+    <br>
     
-
-
-  <input type="submit" value="Submit">
-</form> 
+    
+    <br>
+    <p>Opombe</p>
+    <textarea name='opomba'  id='opomba'></textarea>
+    <br>
+ 
+    <button type="button" onclick="naprej('jahanje_form', 'jahanje_form_naprej','skrij')">Naprej</button>
+    <br>
   </div>
+
+
+
+  <div class="form" id="jahanje_form_naprej">
+  <h3>Kdo bo delal</h3> 
+  <?php
+ 
+$sql = "SELECT * FROM `zaposleni`";
+$result = $conn->query($sql);
+while($row = $result->fetch_assoc())
+ {
+  echo "<input type='checkbox' id=".$row['zaposleni_ime']." name='zaposleni[]' value=".$row['delavci_id'].">";
+  echo "<label for=".$row['zaposleni_ime'].">".$row['zaposleni_ime']."</label><br>";
+}
+    ?>
+<br>
+<input type='checkbox' id="ni" name='zaposleni[]' value="ni znano">
+<label for="ni" >Trenutno ni znano</label><br>
+  <button type="button" onclick="naprej('jahanje_form_naprej','jahanje_form','pokazi')">Nazaj</button>
+<input type="submit" id='checkBtn' value="Submit">
+  </div>
+  
+</form> 
 
 
 
@@ -188,6 +223,23 @@ echo  "<option value='none'> </option>";
 
 
 <script>
+$(document).ready(function () {
+     $('#checkBtn').click(function() {
+       checked = $("input[type=checkbox]:checked").length;
+       if(!checked) {
+         alert("You must check at least one checkbox.");
+         return false;
+       }
+     });
+ });
+
+
+
+
+
+
+
+
     // Zamenja form ob spremembi select
     function zamenjaj()
 {   var vrsta = document.getElementById("vrsta");
@@ -226,12 +278,33 @@ echo  "<option value='none'> </option>";
     }
 }
 
+
+
+function naprej(odlokacija, dolokacija,action)
+{
+  var odkam = document.getElementById(odlokacija);
+  var dokam = document.getElementById(dolokacija);
+
+  odkam.style.display = "none";
+  dokam.style.display = "block";
+  var vr = document.getElementById('vrsta');
+  if(action == 'skrij')
+  vr.style.display = "none";
+  else if (action == 'pokazi')
+  {
+  vr.style.display = "block";
+  }
+}
+
 function showpaketi(str)
 {
+
   if (str == "") {
     document.getElementById("txtHint").innerHTML = "";
+    ostal.style.display = "none";
     return;
   }
+
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function() {
     document.getElementById("i_paket").innerHTML = this.responseText;

@@ -3,6 +3,7 @@ require 'baza.php';
 $id = $_GET['ajdi'];
 $conn = OpenCon();
 ?>
+    <label for="i_paket_s">Izbreite paket</label><br>
 <select name="i_paket_s" id="i_paket_s">
 <?php
 $sql = "SELECT * FROM kupljene_ure join dejavnosti using(dejavnost_id) where stranka_id=".$id." and na_voljo_ur > 0;";
