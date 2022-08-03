@@ -38,11 +38,24 @@ if($_POST['tip'] == "jahanje")
         {}
         else
         {
-            $sqlselect = "SELECT * rezervacija_id FROM rezervacije where kupljena_dejavnost_id = ".$dejavnost." and cas = '".$datum."' and stranka_id = ".$stranka." and opombe = '".$opomba."'";
-            $result = $conn->query($sql);
+          
+          
+            $sqlselect = "SELECT rezervacija_id FROM rezervacije where kupljena_dejavnost_id = ".$dejavnost." and cas = '".$datum."' and stranka_id = ".$stranka.";";
+            $result = $conn->query($sqlselect);
             $row = $result->fetch_assoc();
-            $insert = "INSERT INTO zaposleni_rezervacije VALUES(".$z.",".$row['rezervacija_id'].")";
-            $rez = $conn->query($insert);
+            
+            
+            $ins = "INSERT INTO zaposleni_rezervacije VALUES(".$z.",".$row['rezervacija_id'].");";
+            $rez = $conn->query($ins);
+
+            if($rez)
+            {
+                alert("Uspešno rezervirano");
+            }
+            else
+            {
+                alert("Napaka pri rezervaciji");
+            }
         }
     }
     }

@@ -96,7 +96,7 @@ $sql = "SELECT * FROM `zaposleni`";
 $result = $conn->query($sql);
 while($row = $result->fetch_assoc())
  {
-  echo "<input type='checkbox' id=".$row['zaposleni_ime']." name='zaposleni[]' value=".$row['delavci_id'].">";
+  echo "<input type='checkbox' id=".$row['zaposleni_ime']." name='zaposleni[]' value='".$row['delavci_id']."'>";
   echo "<label for=".$row['zaposleni_ime'].">".$row['zaposleni_ime']."</label><br>";
 }
     ?>
@@ -218,6 +218,9 @@ echo  "<option value='none'> </option>";
 
 
 <div  id="overlay"></div>
+
+
+
 
 
 
