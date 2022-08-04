@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="popup.css">
 <script defer src="popup.js"></script>
 <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="evo-calendar/css/evo-calendar.css" />
+<script src="evo-calendar/js/jquery.min.js"></script>
+<script src="evo-calendar/js/evo-calendar.js"></script>
+
+
 </head>
 
 <body>
@@ -216,8 +221,13 @@ echo  "<option value='none'> </option>";
 
     
 
+<div id="evoCalendar"></div>
+
 
 <div  id="overlay"></div>
+
+
+
 
 
 
@@ -235,6 +245,54 @@ $(document).ready(function () {
        }
      });
  });
+
+ 
+
+
+ // calendar 
+
+ 
+
+  $('#evoCalendar').evoCalendar({
+    language:'sl',
+    calendarEvents: 
+  [
+    
+    {
+        id: 'bHay68s', // Event's ID (required)
+        name: "New Year", // Event name (required)
+        date: "January/1/2020", // Event date (required)
+        type: "holiday", // Event type (required)
+        everyYear: true // Same event every year (optional)
+      },
+      
+    ]
+  });
+  
+
+  /*
+  
+  $("#evoCalendar").evoCalendar('addCalendarEvent', [
+    {
+      id: '1',
+      name: "My Birthday",
+      date: "2022-08-02 18:34:00",
+      description: "Vacation leave for 3 days.",
+      type: "event",
+      everyYear: false,
+      badge:"08/03 - 08/05",
+    }
+  ]);
+*/
+  
+// selectEvent
+$('#evoCalendar').on('selectEvent', function(event, activeEvent) {
+ alert(activeEvent.id);
+    });
+
+
+
+
 
 
 
