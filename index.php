@@ -5,11 +5,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <title>Rezervacije</title>
 <link rel="stylesheet" href="popup.css">
-<script defer src="popup.js"></script>
+<link rel="stylesheet" href="rezer.css">
 <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" href="evo-calendar/css/evo-calendar.css" />
 <script src="evo-calendar/js/jquery.min.js"></script>
+<script defer src="popup.js"></script>
+   
 <script src="evo-calendar/js/evo-calendar.js"></script>
+
+
 
 
 </head>
@@ -158,11 +162,6 @@ while($row = $result->fetch_assoc())
     <div class="popup-body">
     
 
-
-
-
-
-
     <!-- form za nakup paketa-->
     
     <form action="vnos_nakupa.php" method="post">
@@ -221,8 +220,26 @@ echo  "<option value='none'> </option>";
 
     
 
+
+    <!-- ogled rezervacije -->
+    <div class="popup" id="rezervacija">
+    <div class="popup-header">
+        <div class="popup-title"> Ogled rezervacije  </div>
+        <button data-close-button class="zapri">&times;</button>
+    </div>
+    <div class="popup-body">
+      <h2> lo llll </h2>
+    </div>
+    </div>
+
 <div id="evoCalendar"></div>
 
+
+
+<h3 id='rez_nas'>Rezervacije na izbran dan</h3>
+
+<div id = 'rez_na_dan'></div>
+  
 
 <div  id="overlay"></div>
 
@@ -246,35 +263,30 @@ $(document).ready(function () {
      });
  });
 
- 
 
 
- // calendar 
+let calevent = [];
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onload = function() {
+   calevent = JSON.parse(this.responseText);
 
- 
-
-  $('#evoCalendar').evoCalendar({
+   $('#evoCalendar').evoCalendar({
     language:'sl',
-    calendarEvents: 
-  [
-    
-    {
-        id: 'bHay68s', // Event's ID (required)
-        name: "New Year", // Event name (required)
-        date: "January/1/2020", // Event date (required)
-        type: "holiday", // Event type (required)
-        everyYear: true // Same event every year (optional)
-      },
-      
-    ]
+    calendarEvents: calevent
+  
+  
   });
+}
+xmlhttp.open("GET", "get_rezervacije.php");
+xmlhttp.send();
+
+  
   
 
   /*
-  
   $("#evoCalendar").evoCalendar('addCalendarEvent', [
     {
-      id: '1',
+      id: '5ggg',
       name: "My Birthday",
       date: "2022-08-02 18:34:00",
       description: "Vacation leave for 3 days.",
@@ -285,11 +297,35 @@ $(document).ready(function () {
   ]);
 */
   
-// selectEvent
-$('#evoCalendar').on('selectEvent', function(event, activeEvent) {
- alert(activeEvent.id);
-    });
 
+
+//Današnje rezervacije ko se zažene
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+var d =  mm +'/'+ dd +'/'+ yyyy;
+
+
+const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("rez_na_dan").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "get_rezervacije.php?datum="+d);
+  xhttp.send();
+
+
+
+  
+// selectDate
+$('#evoCalendar').on('selectDate', function(event, newDate, oldDate) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("rez_na_dan").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "get_rezervacije.php?datum="+newDate);
+  xhttp.send();
+});
 
 
 
