@@ -1,3 +1,5 @@
+
+
 const openButton = document.querySelectorAll('[data-popup-target]')
 const closeButton = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay');
@@ -31,7 +33,4 @@ function closePopup(pop) {
     pop.classList.remove('active')
     overlay.classList.remove('active')
 }
-
-
-
 
