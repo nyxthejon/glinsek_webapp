@@ -54,14 +54,12 @@
 <!-- form za vnos jahanja-->
   <form action="vnos_rezervacije.php" method="post">
   <div class="form" id="jahanje_form">
-
   <input type="hidden" name="tip" value="jahanje">
     <!-- Izbira stranke -->
     <label for="i_stranka">Izberite stranko</label><br>
   <select name="i_stranka" id="i_stranka" require onchange="showpaketi(this.value)">
   <option value="">Izberite stranko</option>
   <?php
- 
 $sql = "SELECT * FROM `stranke`";
 $result = $conn->query($sql);
 while($row = $result->fetch_assoc())
@@ -69,13 +67,10 @@ while($row = $result->fetch_assoc())
     echo  '<option value='.$row["stranka_id"].'>'.$row["ime"].' '.$row['priimek'].' | '.$row["email"].'</option>';
  }
     ?>
-
   </select>
 
     <!-- Izbira paketa -->
-
     <div id="i_paket">
-
     </div>
     <div>
     <label for='dateizbira'>Vnesite datum Jahanja</label>
@@ -89,23 +84,16 @@ while($row = $result->fetch_assoc())
        name="cas">
     </div>
     <br>
-    
-    
     <br>
     <p>Opombe</p>
     <textarea name='opomba'  id='opomba'></textarea>
     <br>
- 
     <button type="button" onclick="naprej('jahanje_form', 'jahanje_form_naprej','skrij')">Naprej</button>
     <br>
   </div>
-
-
-
   <div class="form" id="jahanje_form_naprej">
   <h3>Kdo bo delal</h3> 
   <?php
- 
 $sql = "SELECT * FROM `zaposleni`";
 $result = $conn->query($sql);
 while($row = $result->fetch_assoc())
@@ -120,38 +108,74 @@ while($row = $result->fetch_assoc())
   <button type="button" onclick="naprej('jahanje_form_naprej','jahanje_form','pokazi')">Nazaj</button>
 <input type="submit" id='checkBtn' value="Submit">
   </div>
-  
 </form> 
 
 
 
 
-
-
-
-
-  
 <!-- form za vnos Tabora-->
 <div class="form" id="tabor_form">
   <form action="vnos_rezervacije.php" method="post">
-  <label for="fname">LOLLLLLLLLL</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+
+  
   <input type="submit" value="Submit">
 </form> 
   </div>
 
-<!-- form za vnos Rojstnega dneva-->
+
+
+
+<!-- form za vnos Rojstnega dneva-->  
+<form action="vnos_rezervacije.php" method="post">
   <div class="form" id="rd_form">
-  <form action="vnos_rezervacije.php" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit">
+  <label for="starsa">Ime in priimek staršev</label><br>
+  <input type="text" id="starsa" name="starsi"><br>
+  <label for="naslov">Naslov</label><br>
+  <input type="text" id="naslov" name="naslov" required="required"><br>
+  <label for="posta">Postna stevilka</label><br>
+  <select name="posta" id="posta">
+  <?php
+
+
+$sql = "SELECT * FROM `kraji`";
+$result = $conn->query($sql);
+echo  "<option value='none'> </option>";
+ while($row = $result->fetch_assoc())
+ {
+    echo  '<option value='.$row["k_id"].'>'.$row["ime_k"].' | '.$row["posta"].'</option>';
+ }
+    ?>
+  </select><br>
+  <label for="email">E-pošta</label><br>
+  <input type="email" id="email" name="email" required="required"><br>
+  <label for="phone">Telefon</label><br>
+  <input type="number" id="phone" name="phone" required="required"><br>
+  <button type="button" onclick="naprej('rd_form','rd_form_naprej','skrij')">Naprej</button>
+ 
+</div>
+ <div class='form' id='rd_form_naprej'>
+ <label for="starsa">Ime in priimek Slavljenca/ke</label><br>
+  <input type="text" id="starsa" name="slavljenec"><br>
+  <label for="leto">Dopolnila bo</label><br>
+  <input type="number" id="leto" name="leto"><br>
+   <div>
+    <label for='dateizbira'>Vnesite datum praznovanja</label>
+    <input type="datetime-local" require id="dateizbira"
+       name="datum_jahanja"
+       min="2000-01-01T00:00">
+    </div>
+    
+
+ <label for='opombe'>Opombe</label>
+<textarea cols='50' id='about' name='about' rows='4'></textarea> 
+<button type="button" onclick="naprej('rd_form_naprej','rd_form','pokazi')">Nazaj</button>
+ <input type="submit" value="Submit">
+</div>
 </form> 
-  </div>
+  
+
+
+
 
     </div>
 </div>

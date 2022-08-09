@@ -22,7 +22,7 @@ while($row = $result->fetch_assoc())
 {
 echo "<div class='row'>";
 echo "<div class='cell' data-title='Dejavnost'>".$row['naslov_dejavnosti']."</div>";
-echo "<div class='cell' data-title='cas'>".$row['cas']."</div>";
+echo "<div class='cell' data-title='cas'>".$row['cas']." do ".$row['do_kdaj']."</div>";
 
 $zaposlenisql = "SELECT * FROM zaposleni_rezervacije join zaposleni using(zaposlen_id) WHERE rezervacija_id = ".$row['rezervacija_id'].";";
 $re = $conn->query($zaposlenisql);
