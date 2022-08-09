@@ -227,7 +227,7 @@ $sql = "SELECT * FROM rezervacije join stranke using(stranka_id) join kupljene_u
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 ?>
-<form action='' class='form'>
+<form action='ureditevrez.php' class='form' method='post'>
   <p class='field required'>
     <label class='label required' for='name'>Stranka</label>
     <input class='text-input' id='name' disabled name='name' required type='text' value='<?php echo $row["ime"]." ".$row['priimek']; ?>'>
@@ -245,6 +245,8 @@ $row = $result->fetch_assoc();
     <label class='label' for='date'>Čas</label>
     <input type="datetime-local" class='date' id='date' name='datum' value='<?php echo $row["cas"];?>'>
   </p>
+  
+  <input type='hidden' name='ajdi' value='<?php echo $_POST['id']; ?>'>
   <p class='field required half'>
     <label class='label' for='time'>Do</label>
     <input type="time" class='time' id='time' name='time' value='<?php echo $row["do_kdaj"];?>'>
@@ -259,16 +261,17 @@ $row = $result->fetch_assoc();
     <ul class='checkboxes'>
       
     <?php 
-$zaposlenisql = "SELECT distinct * FROM `zaposleni` left join zaposleni_rezervacije using(zaposlen_id) where rezervacija_id is null or rezervacija_id = ".$row['rezervacija_id'].";";
+$zaposlenisql = "select * from zaposleni";
 $re = $conn->query($zaposlenisql);
 while($r = $re->fetch_assoc())
 {
-   
+   $check = "SELECT rezervacija_id from zaposleni_rezervacije where rezervacija_id = ".$row['rezervacija_id']." and zaposlen_id = ".$r['zaposlen_id'].";";
+   $num = $conn->query($check);
    echo  " <li class='checkbox'>";
-    if($r['rezervacija_id'] == null)   
-    echo "<input type='checkbox' class='checkbox-input'  id='choice-".$r['zaposlen_id']."'   for='".$r['zaposlen_id']."' name='choice' type='checkbox' value='".$r['zaposlen_id']."'>";
+    if(mysqli_num_rows($num) == 0)   
+    echo "<input type='checkbox' class='checkbox-input'  id='choice-".$r['zaposlen_id']."'   for='".$r['zaposlen_id']."' name='choice[]' type='checkbox' value='".$r['zaposlen_id']."'>";
    else
-   echo "<input type='checkbox' class='checkbox-input' checked  id='choice-".$r['zaposlen_id']."'   for='".$r['zaposlen_id']."' name='choice' type='checkbox' value='".$r['zaposlen_id']."'>";
+   echo "<input type='checkbox' class='checkbox-input' checked  id='choice-".$r['zaposlen_id']."'   for='".$r['zaposlen_id']."' name='choice[]' type='checkbox' value='".$r['zaposlen_id']."'>";
 
     echo "<label class='checkbox-label' for='choice-".$r['zaposlen_id']."' >".$r['zaposleni_ime']."</label>";
     echo "</li>";
@@ -287,6 +290,7 @@ while($r = $re->fetch_assoc())
     <input class='button' type='submit' value='Send'>
   </p>
 </form>
+
 
 </body>
 </html>

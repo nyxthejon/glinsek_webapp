@@ -83,6 +83,11 @@ while($row = $result->fetch_assoc())
        name="datum_jahanja"
        min="2000-01-01T00:00">
     </div>
+    <div>
+    <label for='cas'>Do kdaj bo trajalo</label>
+    <input type="time" require id="cas"
+       name="cas">
+    </div>
     <br>
     
     

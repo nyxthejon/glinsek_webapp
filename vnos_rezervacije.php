@@ -16,6 +16,7 @@ if($_POST['tip'] == "jahanje")
     $stranka = $_POST['i_stranka'];
     $dejavnost = $_POST['i_paket_s'];
     $datum = $_POST['datum_jahanja'];
+    $dokdaj = $_POST['cas'];
     if(isset($_POST['opomba']))
     {
     $opomba = $_POST['opomba'];
@@ -28,14 +29,16 @@ if($_POST['tip'] == "jahanje")
 
     
     $conn = OpenCon();
-    $sql = "INSERT INTO rezervacije() VALUES ('NULL','NULL','$dejavnost','$datum','$stranka','NULL','NULL','$opomba') ";
+    $sql = "INSERT INTO rezervacije() VALUES ('NULL','NULL','$dejavnost','$datum','$dokdaj','$stranka','NULL','NULL','$opomba') ";
     $result = $conn->query($sql);
     if($result)
     {
     foreach ($zap as $z)
     {
         if($z == 'ni znano')
-        {}
+        {
+            alert("Uspešno rezervirano");
+        }
         else
         {
           
