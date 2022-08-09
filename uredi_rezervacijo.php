@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #111111;
+  background-color: wheat;
   font-family: "Titillium Web", sans-serif;
 }
 @media screen and (min-width: 40em) {
@@ -32,7 +32,7 @@ body {
 
 .form .label {
   font-weight: bold;
-  color: white;
+  color: black;
   padding-top: 0;
   padding-left: 0;
   letter-spacing: 0.025em;
@@ -227,6 +227,11 @@ $sql = "SELECT * FROM rezervacije join stranke using(stranka_id) join kupljene_u
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 ?>
+
+
+
+
+
 <form action='ureditevrez.php' class='form' method='post'>
   <p class='field required'>
     <label class='label required' for='name'>Stranka</label>
@@ -287,7 +292,15 @@ while($r = $re->fetch_assoc())
   </p>
   
   <p class='field half'>
-    <input class='button' type='submit' value='Send'>
+    <input class='button' type='submit' value='Pošlji'>
+    
+  </p>
+
+  <form action='ureditevrez.php' class='form' method='post'>
+  <input type='hidden' name='iz' value = 'izbrisi'>
+  <input type='hidden' name='ajdi' value = '<?php echo $_POST["id"]; ?>'>
+  <p class='field half'>
+    <input class='button' type='submit' value='Izbriši rezervacijo'>
   </p>
 </form>
 
