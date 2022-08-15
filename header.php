@@ -34,7 +34,7 @@ li a:hover {
     <ul>
         <li><a href="index.php">Rezervacije</a></li>
         <li><a href="stranke.php">Stranke</a></li>
-      
+        <li><a href="pretekle.php">Pregled</a></li>
 
 
       </ul>

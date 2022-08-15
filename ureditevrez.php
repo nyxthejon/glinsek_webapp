@@ -12,6 +12,18 @@ function alert($msg)
 require 'baza.php';
 $id = $_POST['ajdi'];
 $conn = OpenCon();
+
+if(isset($_POST['iz']))
+{
+    $del = "DELETE FROM zaposleni_rezervacije WHERE rezervacija_id =".$id.";";
+    $result = $conn->query($del);
+    $del = "DELETE FROM rezervacije WHERE rezervacija_id =".$id.";";
+    $result = $conn->query($del);
+    alert("uspešno izbrisano");
+
+}
+else
+{
 $del = "DELETE FROM zaposleni_rezervacije WHERE rezervacija_id =".$id.";";
         $result = $conn->query($del);
 if(isset($_POST['choice']))
@@ -36,4 +48,4 @@ else
 {
     alert("Napaka pri posodobitvi");
 }
-
+}
