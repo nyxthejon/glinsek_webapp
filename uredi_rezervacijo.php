@@ -239,7 +239,7 @@ $row = $result->fetch_assoc();
   </p>
   
   <p class='field half'>
-    <label class='label' for='phone'>Phone</label>
+    <label class='label' for='phone'>Telefon</label>
     <input class='text-input' id='phone' disabled name='phone' type='phone' value='<?php echo $row["telefon"];?>'>
   </p>
   <p class='field  half'>
@@ -292,10 +292,10 @@ while($r = $re->fetch_assoc())
   </p>
   
   <p class='field half'>
-    <input class='button' type='submit' value='Pošlji'>
+    <input class='button' type='submit' value='Shrani'>
     
   </p>
-
+</form>
   <form action='ureditevrez.php' class='form' method='post'>
   <input type='hidden' name='iz' value = 'izbrisi'>
   <input type='hidden' name='ajdi' value = '<?php echo $_POST["id"]; ?>'>

@@ -41,9 +41,9 @@ while($row =  $result->fetch_assoc())
 
 <label for="end">Do</label>
 <input type="date" id='end' onchange="Datum()" class="med" name="end">
-    
-
 </div>
+
+
 
 
 <div id='pretk'></div>

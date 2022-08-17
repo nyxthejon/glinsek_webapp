@@ -33,6 +33,9 @@ if($_POST['tip'] == "jahanje")
     $result = $conn->query($sql);
     if($result)
     {
+        $sqlselect = "SELECT rezervacija_id FROM rezervacije where kupljena_dejavnost_id = ".$dejavnost." and cas = '".$datum."' and stranka_id = ".$stranka.";";
+        $result = $conn->query($sqlselect);
+        $row = $result->fetch_assoc();
     foreach ($zap as $z)
     {
         if($z == 'ni znano')
@@ -41,13 +44,6 @@ if($_POST['tip'] == "jahanje")
         }
         else
         {
-          
-          
-            $sqlselect = "SELECT rezervacija_id FROM rezervacije where kupljena_dejavnost_id = ".$dejavnost." and cas = '".$datum."' and stranka_id = ".$stranka.";";
-            $result = $conn->query($sqlselect);
-            $row = $result->fetch_assoc();
-            
-            
             $ins = "INSERT INTO zaposleni_rezervacije VALUES(".$z.",".$row['rezervacija_id'].");";
             $rez = $conn->query($ins);
 

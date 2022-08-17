@@ -12,7 +12,32 @@
 <script defer src="popup.js"></script>
    
 <script src="evo-calendar/js/evo-calendar.js"></script>
+<style>
+  input[type="number"] {
+  width: 100px;
+}
 
+input + span {
+  padding-right: 30px;
+}
+
+input:invalid+span:after {
+  position: absolute;
+  content: '✖';
+  padding-left: 5px;
+}
+
+input:valid+span:after {
+  position: absolute;
+  content: '✓';
+  padding-left: 5px;
+}
+
+#do_div
+  {
+    display:none;
+  }
+</style>
 
 
 
@@ -74,14 +99,14 @@ while($row = $result->fetch_assoc())
     </div>
     <div>
     <label for='dateizbira'>Vnesite datum Jahanja</label>
-    <input type="datetime-local" require id="dateizbira"
+    <input type="datetime-local" onchange="show_do(this)" require id="dateizbira"
        name="datum_jahanja"
        min="2000-01-01T00:00">
     </div>
-    <div>
+    <div id='do_div'> 
     <label for='cas'>Do kdaj bo trajalo</label>
-    <input type="time" require id="cas"
-       name="cas">
+    <input type="time" require id="cas" name="cas" min="00:01">
+    <span class="validity"></span>
     </div>
     <br>
     <br>
@@ -98,7 +123,7 @@ $sql = "SELECT * FROM `zaposleni`";
 $result = $conn->query($sql);
 while($row = $result->fetch_assoc())
  {
-  echo "<input type='checkbox' id=".$row['zaposleni_ime']." name='zaposleni[]' value='".$row['delavci_id']."'>";
+  echo "<input type='checkbox' id=".$row['zaposleni_ime']." name='zaposleni[]' value='".$row['zaposlen_id']."'>";
   echo "<label for=".$row['zaposleni_ime'].">".$row['zaposleni_ime']."</label><br>";
 }
     ?>
@@ -182,6 +207,10 @@ echo  "<option value='none'> </option>";
 
 
 
+
+
+
+
 <button data-popup-target="#nakup">Dodaj nov nakup paketa</button>
 <div class="popup" id="nakup">
     <div class="popup-header">
@@ -191,8 +220,59 @@ echo  "<option value='none'> </option>";
     <div class="popup-body">
     
 
+
     <!-- form za nakup paketa-->
     
+     <!-- iZBIRA-->
+    <div  id="nova_stara">
+    <button type="button" onclick="naprej('nova_stara','nova_stranka','skrij')">Nova stranka</button>
+    <button type="button" onclick="naprej('nova_stara','stara_stranka','skrij')">Že obstoječa stranka stranka</button>
+    </div>
+
+ <!-- stara stranka-->
+    <div class="form" id="stara_stranka">
+
+    <input type="text" name="get_stranka" id="get_stranka_id" >
+    <button type="button" onclick="preveri_stranko()">Preveri</button>
+
+    <form action="vnos_nakupa.php" method="post">
+        
+    <div id='stara_izpis'>
+    
+    </div>
+    <br>
+    <button id='stara_potrdi' type="button" onclick="stara_vec()">Potrdi stranko</button>
+    <div id ="stara_ostalo" class='form'>
+    <label for="dd"> Izberite dejavnost </label><br>
+
+        <select name="dejavnost" id="dd">
+        <?php
+
+        $sql = "SELECT * FROM `dejavnosti`";
+
+
+        $result = $conn->query($sql);
+        while($row = $result->fetch_assoc())
+        {
+        echo  '<option value='.$row["dejavnost_id"].'>'.$row["naslov_dejavnosti"].' | '.$row["cena"].' EUR</option>';
+        }
+        ?>
+        </select>
+        <br>
+    <label for="za">Za koga se kupuje paket</label><br>
+    <input type="text" id="za" name="za" value="zase"><br>
+    <label for="kolicina">Kolicina</label><br>
+    <input type="number" id="kolicina" name="kolicina" value="1" min="1"><br>
+      
+    <input type="submit" value="koncaj">
+      </div>
+    </form>
+    <button type="button" onclick="naprej('stara_stranka','nova_stara','pokazi')">Nazaj</button>
+    </div>
+
+
+     <!-- Nova stranka-->
+    <div class="form" id="nova_stranka">
     <form action="vnos_nakupa.php" method="post">
     <label for="vd"> Izberite dejavnost </label><br>
 
@@ -242,8 +322,10 @@ echo  "<option value='none'> </option>";
   <label for="kolicina">Kolicina</label><br>
   <input type="number" id="kolicina" name="kolicina" value="1" min="1"><br>
   <input type="submit" value="Konec">
-</form>
 
+</form>
+<button type="button" onclick="naprej('nova_stranka','nova_stara','pokazi')">Nazaj</button>
+</div>
     </div>
     </div>
 
@@ -405,6 +487,31 @@ $('#evoCalendar').on('selectDate', function(event, newDate, oldDate) {
 }
 
 
+function preveri_stranko()
+{
+  var email = document.getElementById('get_stranka_id').value;
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("stara_izpis").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "getpakete.php?email="+ email);
+  xhttp.send();
+
+  document.getElementById('stara_potrdi').style.display = "block";
+  document.getElementById('stara_izpis').style.display="block";
+  document.getElementById('stara_ostalo').style.display = "none";
+ 
+}
+
+function stara_vec()
+{
+
+  document.getElementById('stara_potrdi').style.display = "none";
+  document.getElementById('stara_izpis').style.display="none";
+  document.getElementById('stara_ostalo').style.display = "block";
+
+}
 
 function naprej(odlokacija, dolokacija,action)
 {
@@ -437,6 +544,18 @@ function showpaketi(str)
   }
   xhttp.open("GET", "getpakete.php?ajdi="+str);
   xhttp.send();
+
+}
+
+function show_do(val)
+{
+
+ const s = val.value.split("T");
+ var o =  document.getElementById("do_div"); 
+ 
+ o.style.display = "block";
+ document.getElementById("cas").min = s[1];
+
 
 }
 

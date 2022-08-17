@@ -20,12 +20,11 @@ if(isset($_GET['zac']) && isset($_GET['kon']))
 }
 else
 {
-  $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id);";
+  $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now());";
 }
 }
 else
 {
-
 if(isset($_GET['zac']) && isset($_GET['kon']))
 {
   $z = $_GET['zac'];
@@ -34,7 +33,7 @@ if(isset($_GET['zac']) && isset($_GET['kon']))
 }
 else
 {
-$sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where zaposlen_id = ".$val.";";
+$sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now()) and zaposlen_id = ".$val.";";
 }
 }
 $result = $conn->query($sql);
