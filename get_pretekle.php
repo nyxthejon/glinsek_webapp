@@ -16,11 +16,14 @@ if(isset($_GET['zac']) && isset($_GET['kon']))
   $z = $_GET['zac'];
   $k = $_GET['kon'];
   $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) between '".$z."' and '".$k."';";
+  $sqltime = "SELECT sec_to_time(SUM(time_to_sec(do_kdaj) - time_to_sec(time(cas)))) as pretek FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) between '".$z."' and '".$k."';";
 
 }
 else
 {
   $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now());";
+  $sqltime = "SELECT sec_to_time(SUM(time_to_sec(do_kdaj) - time_to_sec(time(cas)))) as pretek  FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now());";
+
 }
 }
 else
@@ -30,13 +33,21 @@ if(isset($_GET['zac']) && isset($_GET['kon']))
   $z = $_GET['zac'];
   $k = $_GET['kon'];
   $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where zaposlen_id = ".$val." and date(cas) between '".$z."' and '".$k."';";
+  $sqltime = "SELECT sec_to_time(SUM(time_to_sec(do_kdaj) - time_to_sec(time(cas)))) as pretek  FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where zaposlen_id = ".$val." and date(cas) between '".$z."' and '".$k."';";
+
 }
 else
 {
 $sql = "SELECT * FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now()) and zaposlen_id = ".$val.";";
+$sqltime = "SELECT sec_to_time(SUM(time_to_sec(do_kdaj) - time_to_sec(time(cas)))) as pretek  FROM zaposleni_rezervacije join rezervacije using (rezervacija_id) join stranke using(stranka_id) join kupljene_ure on (rezervacije.kupljena_dejavnost_id = kupljene_ure.ku_id)  join dejavnosti using(dejavnost_id) where date(cas) < date(now()) and zaposlen_id = ".$val.";";
+
 }
 }
 $result = $conn->query($sql);
+$resulttime = $conn->query($sqltime);
+$rt = $resulttime->fetch_assoc();
+echo "<h2>Delovnih ur ".$rt['pretek']." </h2>";
+
 while($row = $result->fetch_assoc())
 {
 echo "<div class='row'>";

@@ -88,7 +88,7 @@ $po = $conn->query($sql);
         </thead>
         <tbody>
 <?php 
-$sql = "SELECT * FROM stranke join kupljene_ure using(stranka_id) join dejavnosti using(dejavnost_id) where stranka_id = '$id' order by na_voljo_ur DESC";
+$sql = "SELECT *, TIMESTAMPDIFF(MONTH,datum_nakupa,date(now())) as preteklo FROM stranke join kupljene_ure using(stranka_id) join dejavnosti using(dejavnost_id) where stranka_id = '$id' order by na_voljo_ur DESC";
 $result = $conn->query($sql);
  while($row = $result->fetch_assoc())
  {
@@ -96,7 +96,14 @@ $result = $conn->query($sql);
   echo "<td>".$row['naslov_dejavnosti']."</td>";
   echo "<td>".$row['stevilo_ur']."</td>";
   echo "<td>".$row['na_voljo_ur']."</td>";
+  if($row['preteklo'] < 3)
+  {
   echo "<td>".$row['datum_nakupa']."</td>";
+  }
+  else
+  {
+    echo "<td>".$row['datum_nakupa']." Že poteklo</td>";
+  }
   echo "<td>".$row['stevilo_ur'] * $row['cena']." Eur</td>";
   $ajdi = $row['ku_id'];
 ?>
